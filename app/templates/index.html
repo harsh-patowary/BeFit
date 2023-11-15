@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+{% block title %} Welcome {% endblock %}
+<h1>Welcome to our Diet Managing Tool</h1>
+    <button type="button" onclick=" window.location.href = '/bmi' ; " class="button">Click Me</button>
+<section class="features">
+    <div class="container">
+        <h2>Diet Management Tool Features</h2>
+        <ul class="feature-list">
+            <li class="feature">
+                <i class="fa fa-cutlery"></i>
+                <p>Create Personalized Meal Plans</p>
+            </li>
+            <li class="feature">
+                <i class="fa fa-chart-line"></i>
+                <p>Track Daily Food Intake</p>
+            </li>
+            <li class="feature">
+                <i class="fa fa-chart-bar"></i>
+                <p>Visualize Calorie and Nutrient Consumption</p>
+            </li>
+            <li class="feature">
+                <i class="fa fa-file-pdf"></i>
+                <p>Generate PDF Reports for Dieticians</p>
+            </li>
+            <li class="feature">
+                <i class="fa fa-cogs"></i>
+                <p>Set and Monitor Dietary Goals</p>
+            </li>
+            <li class="feature">
+                <i class="fa fa-list-ul"></i>
+                <p>Create Custom Meal Plans</p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+{% endblock %}
