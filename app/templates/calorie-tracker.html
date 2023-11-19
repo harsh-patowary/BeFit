@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+        Calorie Tracker
+{% endblock %}
+
+{% block content %}
+    <form action="" class="container" method="post">
+        <div class="mb-3 mt-3">
+            <label for="ingredient">Enter the Ingredient/Food</label>
+            <input type="ingredient" class="form-control" id="ingredient" placeholder="Enter ingredient" name="ingredient" value="{{ request.form['ingredient'] }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Enter</button>
+    </form>
+    <div class="container text-center">
+        <div class="card-body">
+            <div class="container">
+                {% if calories %}
+                    <h3>Your BMI: { calories }</h3>
+                    <h3>You are { usr_bmiStatus }</h3>
+                {% endif %}
+            </div>
+        </div>
+      </div>
+{% endblock %}
