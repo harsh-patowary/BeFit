@@ -20,6 +20,16 @@ tot_calories = 0
 def index():
     return render_template('index.html')
 
+# @app.route('/register')
+# def register():
+#     # register user see if existing redirect to login page
+#     pass
+
+# @app.route('/login')
+# def register():
+#     # use login info to pull userData from sql/csv and initialize global User Object
+#     pass
+
 @app.route('/bmi', methods = ['GET', 'POST']) 
 def bmi():
     if request.method == 'POST':
@@ -42,6 +52,7 @@ def bmi():
             return render_template('bmi.html', usr_bmi=usr_bmi, usr_bmiStatus=usr_bmiStatus)
     
     return render_template('bmi.html')
+
 
 
 @app.route('/calorietracker', methods = ['GET', 'POST'])
@@ -75,6 +86,12 @@ def calorie_tracker():
             
 
     return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories)
+
+
+@app.route("/submitting")
+def submitting():
+    # todo: submit given info with all user & food tracking info into csv/database with the submit button
+    return render_template('calorie-tracker.html')
 
 
 @app.route('/delete_item/<food>')
