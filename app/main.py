@@ -13,7 +13,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'harsh004'
 app_id = "d16a2064"
 app_key = "754bc0f60796c0031d1da99d58a3f1da"
-
+food_log = dict()
+tot_calories = 0
 
 @app.route('/')
 def index():
@@ -45,18 +46,50 @@ def bmi():
 
 @app.route('/calorietracker', methods = ['GET', 'POST'])
 def calorie_tracker():
+    global food_log
+    global tot_calories
     if request.method == 'POST':
-        ingredient = BFUtils.remove_space(request.form['ingredient'])
+        ingredient = request.form['ingredient']
+        usr_ingr_amount = float(request.form['ingr_weight'])
+        ENCODED_ingredient = BFUtils.remove_space(ingredient)
+        
         if not ingredient:
             flash("Ingrediant is needed")
         else:
-            api_url = f"https://api.edamam.com/api/nutrition-data?app_id={app_id}&app_key={app_key}&nutrition-type=logging&ingr={ingredient}"
-            response = requests.get(api_url).json()
-            calories = response["calories"]
-            print(type(response))
-            print(f"Ingredients: {ingredient}, Calories: {calories}")
             
-            render_template('calorie-tracker.html', ingredient=ingredient, calories=calories)
+            api_url = f"https://api.edamam.com/api/nutrition-data?app_id={app_id}&app_key={app_key}&nutrition-type=logging&ingr={ENCODED_ingredient}"
+            response = requests.get(api_url).json()
+            fooCal = response["calories"]
+            fooIngrWeight = response["totalWeight"]
+            calories_perGram = BFUtils.cal_perGram(float(fooCal), float(fooIngrWeight))
+            print(type(response))
+            calories = calories_perGram * usr_ingr_amount
+            print(f"Ingredients: {ingredient}, Calories: {calories}, {fooIngrWeight}, {fooCal}\n")
+            food_details = {'calories' : round(calories), 'user_consumption' : usr_ingr_amount}
+            flag = {ingredient: food_details}
+            food_log.update(flag)
+            tot_calories += round(calories)
+            total_calories = round(tot_calories)
+            print(food_log)
+            return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories)
             
 
-    return render_template('calorie-tracker.html')
+    return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories)
+
+
+@app.route('/delete_item/<food>')
+def delete_item(food):
+    global food_log
+    global tot_calories
+    foo = food_log.get(food)
+    loo = foo["calories"]
+    tot_calories -= loo
+    food_log.pop(food)
+    print(f"deleting.....{food}")
+    print(food_log)
+    
+    return redirect(url_for('calorie_tracker'))
+
+# @app.route('calorietracker/adding_food', methods = ['GET', 'POST'])
+# def add_item():
+    

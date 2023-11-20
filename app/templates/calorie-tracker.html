@@ -5,19 +5,48 @@
 
 {% block content %}
     <form action="" class="container" method="post">
-        <div class="mb-3 mt-3">
-            <label for="ingredient">Enter the Ingredient/Food</label>
-            <input type="ingredient" class="form-control" id="ingredient" placeholder="Enter ingredient" name="ingredient" value="{{ request.form['ingredient'] }}">
-        </div>
+        <div class="row">
+            <div class="col-3 mb-3 mt-3">
+                <label for="ingredient">Enter the Ingredient/Food</label>
+                <input type="ingredient" class="form-control" id="ingredient" placeholder="Enter ingredient" name="ingredient" value="{{ request.form['ingredient'] }}">
+            </div>
+            <div class="col-3 mb-3 mt-3">
+                <label for="ingr_weight">Enter Amount</label>
+                <input type="ingr_weight" class="form-control" id="ingr_weight" placeholder="Enter in grams" name="ingr_weight" value="{{ request.form['ingr_weight'] }}">
+            </div>
+    </div>
         <button type="submit" class="btn btn-primary">Enter</button>
     </form>
     <div class="container text-center">
         <div class="card-body">
             <div class="container">
-                {% if calories %}
-                    <h3>{{ ingredient }} {{ calories }}</h3>
-                    <h3>You are { usr_bmiStatus }</h3>
-                {% endif %}
+                <table class="table table-stripped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Food</th>
+                            <th scope="col">Calories(kcal)</th>
+                            <th scope="col">Consumption(g)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if food_log %}
+                            {% for food, details in food_log.items() %}
+                                <tr>
+                                    <td>{{ food }}</td>
+                                    <td>{{ details.calories }}</td>
+                                    <td>{{ details.user_consumption }}</td>
+                                    <td><a href="{{ url_for('delete_item', food=food) }}">Delete</a></td>
+                                </tr>
+                                
+                            {% endfor %}
+                            <tr>
+                                <th scope="col">Total</th>
+                                <td> {{total_calories}} </td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 # Util Contents
 import os
 import csv
+import numpy as np
 class UserData:
     
     _age = None
@@ -10,13 +11,15 @@ class UserData:
     _bmi = None
     _unit = None
     _calories_intake = None
+    _goal_range = None
     
-    def __init__(self, a, w, h, n, u):
+    def __init__(self, a, w, h, n, u, gr):
         self._age = a
         self._weight = float(w)
         self._height = float(h)
         self._name = n
         self._unit = u
+        self._unit = gr
     
     
     def calc_bmi(self):
@@ -38,7 +41,7 @@ class UserData:
                return 'underweight'
            elif self._bmi  <= 24:
                return 'healthy'
-           elif self._bmi  <=30:
+           elif self._bmi <= 30:
                return 'overweight'
            else:
                return 'very overweight'
@@ -46,8 +49,8 @@ class UserData:
             return 'Invalid Range Error:BMI/RA23'
         
         
-    def set_food_intake(self, food):
-        self._calories_intake = food
+    # def set_food_intake(self, food):
+        
         
     def convert_to_array(self):
         return [self._name, self._age, self._height, self._weight, self._unit, round(self._bmi), self._calories_intake]
@@ -73,7 +76,11 @@ class BFUtils:
                 header = ['Name', 'Age', 'height', 'weight', 'unit', 'bmi', 'calories']
                 csvwriter.writerow(header)
                     
-            csvwriter.writerow(data)
+            csvwriter.writerow(data)#
+            
+    def cal_perGram(cal, weigh):
+        return float(cal/weigh)
+        
     
     
 # if __name__ == "__main__":

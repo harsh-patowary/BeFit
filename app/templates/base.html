@@ -16,7 +16,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Fitness Website</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">BeFit</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
                         Calorie Tracker
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Intake</a>
+                        <a class="dropdown-item" href="{{ url_for('calorie_tracker') }}">Intake</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Average Consumption</a>
                     </div>
