@@ -1,7 +1,7 @@
 # Util Contents
 import os
 import csv
-import numpy as np
+# import numpy as np
 class UserData:
     
     _age = None
@@ -67,7 +67,7 @@ class BFUtils:
             newStr+=ch
         return newStr
     
-    def insert_data(file_path, data):
+    def insert_data(data):
         file_exists = os.path.isfile("data.csv")
         with open("data.csv", "a", newline='') as file:
             csvwriter = csv.writer(file)
@@ -80,10 +80,21 @@ class BFUtils:
             
     def cal_perGram(cal, weigh):
         return float(cal/weigh)
+    
+    def check_userValidity(user):
+        with open("data.csv", "r") as file:
+            csvreader = csv.reader(file)
+            for line in csvreader:
+                if line[0] == user:
+                    return True
+                
+            return False
+                
         
     
     
 # if __name__ == "__main__":
+    # print(BFUtils.check_userValidity("ollie"))
 #     user1_utils = Utils(45, 60, 1.64, 'rick')
 #     us1_bmi = user1_utils.calc_bmi('m')
 #     print(f"bmi: {us1_bmi}")

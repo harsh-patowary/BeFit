@@ -10,6 +10,10 @@
             <input type="name" class="form-control" id="name" placeholder="Enter name" name="name" value="{{ request.form['name'] }}">
         </div>
         <div class="mb-3 mt-3">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ request.form['email'] }}">
+      </div>
+        <div class="mb-3 mt-3">
             <label for="age">Age</label>
             <input type="age" class="form-control" id="age" placeholder="Enter age" name="age" value="{{ request.form['age'] }}">
         </div>
@@ -29,7 +33,9 @@
              <option value="m">Metric</option>
           </select>
       </div>
+      
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
+  <script src="{{ url_for('static', filename='datepicker.js')}}"></script>
 {% endblock %}
