@@ -10,24 +10,31 @@ class UserData:
     _name = None
     _bmi = None
     _unit = None
+    _email = None
+    _password = None
     _calories_intake = None
     _goal_range = None
     
-    def __init__(self, a, w, h, n, u, gr):
+    
+    
+    def __init__(self, em, pwd, n, a, h, w, u):
         self._age = a
-        self._weight = float(w)
-        self._height = float(h)
+        self._weight = w
+        self._height = h
         self._name = n
         self._unit = u
-        self._unit = gr
+        self._email = em
+        self._password = pwd
     
     
     def calc_bmi(self):
+        # float(self._height)
+        # float(self._weight)
         if self._unit == 'm':
-            self._bmi = self._weight / pow(self._height, 2)
+            self._bmi = float(self._weight) / pow(float(self._height), 2)
             return self._bmi 
         elif self._unit == 'i':
-            self._bmi  = (703 * self._weight)/ pow(self._height, 2)
+            self._bmi  = (703 * float(self._weight))/ pow(float(self._height), 2)
             return self._bmi 
         else:
             return 'Basic Unit Error:IM/ME404'
@@ -52,10 +59,20 @@ class UserData:
     # def set_food_intake(self, food):
         
         
-    def convert_to_array(self):
-        return [self._name, self._age, self._height, self._weight, self._unit, round(self._bmi), self._calories_intake]
+    def convert_to_array(self): 
+        
+        return [self._email, self._password, self._name, self._age, self._height, self._weight, self._unit, round(self.calc_bmi()), self._calories_intake]
+    
+    def convert_to_obj(self, data):
+        return UserData(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
       
-      
+    
+    def load_user(self, email):
+        with open("data.csv", "r") as file:
+            users = csv.reader(file)
+            for user in users:
+                if user[0] == email:
+                    return self.convert_to_obj(user)
        
 class BFUtils:
     
@@ -73,10 +90,10 @@ class BFUtils:
             csvwriter = csv.writer(file)
                 
             if not file_exists:
-                header = ['Name', 'Age', 'height', 'weight', 'unit', 'bmi', 'calories']
+                header = ['Email','Password', 'Name', 'Age', 'height', 'weight', 'unit', 'bmi', 'calories']
                 csvwriter.writerow(header)
                     
-            csvwriter.writerow(data)#
+            csvwriter.writerow(data)
             
     def cal_perGram(cal, weigh):
         return float(cal/weigh)
@@ -89,6 +106,9 @@ class BFUtils:
                     return True
                 
             return False
+        
+    
+        
                 
         
     

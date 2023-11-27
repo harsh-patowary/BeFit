@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} User Login {% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h2>User Login</h2>
+    <form class="container" method="post">
+        
+        <div class="mb-3 mt-3">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ request.form['email'] }}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="usr_password" name="usr_password" plaseholder="Enter Password" value="{{ request.form['usr_password'] }}">
+      </div>
+        
+      
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div>
+        <p>Don't Have an Account<a href="{{ url_for('register') }}"> Register</a></p> 
+    </div>
+</div>
+  <!-- <script src="{{ url_for('static', filename='datepicker.js')}}"></script> -->
+{% endblock %}

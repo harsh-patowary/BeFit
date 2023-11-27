@@ -15,21 +15,24 @@ app_id = "d16a2064"
 app_key = "754bc0f60796c0031d1da99d58a3f1da"
 food_log = dict()
 tot_calories = 0
-user_data = None
+user_data = UserData(None, None, None, None, None, None, None)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     # register user see if existing redirect to login page
     if request.method == 'POST':
         usr_name = request.form['name']
+        usr_email = request.form['email']
+        usr_password = request.form['usr_password']
         usr_age = request.form['age']
         usr_height = request.form['height']
         usr_weight = request.form['weight']
         bmi_unit = request.form.get('unit')
+        print("extracted\n")
         if not usr_height:
             flash("Your Height is required!!")
         elif not usr_weight:
@@ -37,18 +40,31 @@ def register():
         elif not bmi_unit:
             flash("The Unit is Required!!")
         else: 
-            user_data = UserData(usr_age, usr_weight, usr_height, usr_name, bmi_unit)
+            user_data = UserData(usr_email, usr_password, usr_name, usr_age, usr_height, usr_weight, bmi_unit)
+            data_list = user_data.convert_to_array()
             if not BFUtils.check_userValidity(user_data._name):
-                BFUtils.insert_data(user_data)
+                BFUtils.insert_data(data_list)
+                flash("User Registration complete!!")
+                return redirect(url_for('login'))
             else:
                 flash("User already exixts")
             
     return render_template('registration.html')
 
-# @app.route('/login')
-# def register():
-#     # use login info to pull userData from sql/csv and initialize global User Object
-#     pass
+@app.route('/login',  methods = ['GET', 'POST'])
+def login():
+    # use login info to pull userData from sql/csv and initialize global User Object
+    global user_data;
+    if request.method == 'POST':
+        usr_email = request.form['email']
+        usr_password = request.form['usr_password']
+        with open("data.csv", "r") as file:
+            csvreader = csv.reader(file)
+            for line in csvreader:
+                if usr_email==line[0] and usr_password==line[1]:
+                    user_data = user_data.load_user(usr_email)
+                    return redirect(url_for('calorie_tracker'))
+    return render_template('login.html')
 
 @app.route('/bmi', methods = ['GET', 'POST']) 
 def bmi():
@@ -63,7 +79,7 @@ def bmi():
         elif not bmi_unit:
             flash("The Unit is Required!!")
         else: 
-            usr_data = UserData(usr_age, usr_weight, usr_height, usr_name, bmi_unit)
+            usr_data = UserData(usr_age, usr_weight, usr_height, usr_name, bmi_unit,)
             usr_bmiStatus = usr_data.bmi_class()
             usr_bmi = round(usr_data._bmi)
             BFUtils.insert_data("/data.csv", usr_data.convert_to_array())
@@ -77,6 +93,8 @@ def bmi():
 def calorie_tracker():
     global food_log
     global tot_calories
+    global user_data
+    name = user_data._name
     if request.method == 'POST':
         ingredient = request.form['ingredient']
         usr_ingr_amount = float(request.form['ingr_weight'])
@@ -100,15 +118,16 @@ def calorie_tracker():
             tot_calories += round(calories)
             total_calories = round(tot_calories)
             print(food_log)
-            return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories)
+            return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name)
             
 
-    return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories)
+    return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name)
 
 
 @app.route("/submitting")
 def submitting():
     # todo: submit given info with all user & food tracking info into csv/database with the submit button
+    # idkkdkdkdkdk howwww
     return render_template('calorie-tracker.html')
 
 

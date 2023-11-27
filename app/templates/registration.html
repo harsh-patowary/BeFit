@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block content %}
-{% block title %} User Registration{% endblock %}
 
+{% block title %} User Registration{% endblock %}
+{% block content %}
 <div class="container mt-3">
     <h2>Registration</h2>
     <form class="container" method="post">
@@ -12,6 +12,10 @@
         <div class="mb-3 mt-3">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ request.form['email'] }}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="usr_password" class="form-control" id="usr_password" plaseholder="Enter Password" value="{{ request.form['usr_password'] }}">
       </div>
         <div class="mb-3 mt-3">
             <label for="age">Age</label>
@@ -37,5 +41,5 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
-  <script src="{{ url_for('static', filename='datepicker.js')}}"></script>
+  <!-- <script src="{{ url_for('static', filename='datepicker.js')}}"></script> -->
 {% endblock %}
