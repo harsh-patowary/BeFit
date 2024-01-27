@@ -1,5 +1,6 @@
 # from crypt import methods
 from curses import flash
+# Make routing calls noot just locally
 import requests
 import json
 from flask import Flask, render_template, request, url_for, flash, redirect
