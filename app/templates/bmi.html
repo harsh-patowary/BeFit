@@ -13,13 +13,22 @@
         <label for="height">Height (m/ft):</label>
         <input type="height" class="form-control" id="height" placeholder="Enter height" name="height" value="{{ request.form['height'] }}">
       </div>
-      <div class="form-select mb-3">
+      <!-- <div class="form-select mb-3">
         <label for="" class="mb-0 mt-2">Unit System</label>
           <select name="unit" class="form-control input-sm" required>
              <option value="">Please select an option</option>
              <option value="i">Imperial</option>
              <option value="m">Metric</option>
           </select>
+      </div> -->
+      <div class="container form-select mb-3">
+        <label class="" style="margin-right: 10%;">
+          <input type="radio" name="unitRadio" value="i"> Imperial
+        </label>
+        <label class=""> 
+          <input type="radio" name="unitRadio" value="m"> Metric
+        </label>
+        
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

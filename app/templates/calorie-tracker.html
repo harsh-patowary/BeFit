@@ -1,24 +1,126 @@
-{% extends 'base.html' %}
-{% block title %}
-        Calorie Tracker
-{% endblock %}
-
-{% block content %}
-    <h1>Welcome {{ name }} please enter your daily calorie intake</h1>
-    <form action="" class="container" method="post">
-        <div class="row">
-            <div class="col-3 mb-3 mt-3">
-                <label for="ingredient">Enter the Ingredient/Food</label>
-                <input type="ingredient" class="form-control" id="ingredient" placeholder="Enter ingredient" name="ingredient" value="{{ request.form['ingredient'] }}">
-            </div>
-            <div class="col-3 mb-3 mt-3">
-                <label for="ingr_weight">Enter Amount</label>
-                <input type="ingr_weight" class="form-control" id="ingr_weight" placeholder="Enter in grams" name="ingr_weight" value="{{ request.form['ingr_weight'] }}">
-            </div>
+{% extends 'base.html' %} {% block title %} Calorie Tracker {% endblock %} {%
+block content %}
+<h1>Welcome {{ name }} please enter your daily calorie intake</h1>
+<!-- <form action="" class="container" method="post">
+  <div class="row">
+    <div class="col-3 mb-3 mt-3">
+      <label for="ingredient">Enter the Ingredient/Food</label>
+      <input
+        type="ingredient"
+        class="form-control"
+        id="ingredient"
+        placeholder="Enter ingredient"
+        name="ingredient"
+        value="{{ request.form['ingredient'] }}"
+      />
     </div>
-        <button type="submit" class="btn btn-primary">Enter</button>
-    </form>
-    <div class="container text-center">
+    <div class="col-3 mb-3 mt-3">
+      <label for="ingr_weight">Enter Amount</label>
+      <input
+        type="ingr_weight"
+        class="form-control"
+        id="ingr_weight"
+        placeholder="Enter in grams"
+        name="ingr_weight"
+        value="{{ request.form['ingr_weight'] }}"
+      />
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Enter</button>
+</form> -->
+
+<form class="my-8 w-full max-w-sm" method="post">
+  <div class="flex items-center border-b border-purple-700 py-2">
+    <input
+      class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+      type="text"
+      placeholder="Food name"
+      name="ingredient"
+      aria-label="Full name"
+    />
+    <input
+      class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+      type="text"
+      placeholder="Enter Weight (g)"
+      name="ingr_weight"
+      aria-label="Full name"
+    />
+    <button
+      class="flex-shrink-0 bg-purple-700 hover:bg-purple-700 border-purple-700 hover:bg-purple-500 text-sm border-4 text-white py-1 px-2 rounded"
+      type="submit"
+    >
+      Add
+    </button>
+  </div>
+</form>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Food name</th>
+        <th scope="col" class="px-6 py-3">Calories (cal)</th>
+        <th scope="col" class="px-6 py-3">Consumption (g)</th>
+        <th scope="col" class="px-6 py-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if food_log %} {% for food, details in food_log.items() %}
+      <tr
+        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+      >
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ food }}
+        </th>
+        <td class="px-6 py-4">{{ details.calories }}</td>
+        <td class="px-6 py-4">{{ details.user_consumption }}</td>
+        <td class="px-6 py-4">
+          <a
+            href="{{ url_for('delete_item', food=food) }}"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %} {% endif %}
+
+      <tr
+        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+      >
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          Total Calories
+        </th>
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >{{total_calories}}
+      </th>
+        <td class="px-6 py-4"></td>
+        <td class="px-6 py-4">
+          <button
+            class="shadow bg-purple-700 hover:bg-purple-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button"
+            onclick="window.location.href = '/submitting'; "
+          >
+            Submit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- <div class="container text-center">
         <div class="card-body">
             <div class="container">
                 <table class="table table-stripped">
@@ -56,5 +158,5 @@
                 </table>
             </div>
         </div>
-      </div>
+      </div> -->
 {% endblock %}
