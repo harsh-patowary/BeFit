@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %} Meal Plan {%endblock %}
+ {% block content %} 
+
+
+
+    <main class="">
+        <section id="calculator" title="Body Mass Index Calculator" class="flex flex-col w-full lg:flex-row">
+            <div
+                class="flex flex-col items-center gap-y-6 text-center rounded-b-heading p-6 min-h-[40rem] bg-gradient-to-r from-[#D6E6FE] to-[#D6FCFE] lg:py-24 md:px-22 lg:pl-24 lg:pr-[26rem] lg:max-w-[61rem] lg:h-[46rem] lg:items-start lg:text-left">
+                <img alt="Company logo" loading="lazy" decoding="async" data-nimg="1" class="lg:w-[64px]"
+                    style="color:transparent" src="assets/images/logo.png">
+                <div class="flex flex-col gap-y-6 lg:mt-12 lg:gap-y-9">
+                    <h1 class="text-gunmetal text-heading-l text-5xl font-bold md:px-[8rem] lg:px-0 lg:text-heading-xl">
+                        Body Mass Index Calculator</h1>
+                    <div class="text-dark-electric-blue leading-body">Better understand your weight in relation to your
+                        height using our body mass index (BM) calculator. While BMI is not the sole determinant of a
+                        healthy weight, it offers a valuable starting point to evaluate your overall health and
+                        well-being.</div>
+                </div>
+            </div>
+            <div
+                class="mt-2 md:mt-0 flex flex-col gap-y-6 mx-5 -mt-[45%] bg-white text-gunmetal shadow-2xl rounded-md p-6 md:-mt-[35%] lg:mt-[10.4rem] lg:-ml-[15%] lg:w-[30rem] lg:h-fit lg:p-8">
+                <div class="space-y-2">
+                    <div class="text-2xl font-bold">Enter your details below</div>
+                    <div class="text-body-s">Enter your height and weight and you’ll see your BMI result here</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-6">
+                    <div class="flex flex-start items-center"><input id="metric-system" type="radio"
+                            class="mr-5 w-8 h-8 appearance-none border bg-pure-white border-borders rounded-full hover:border-blue hover:cursor-pointer checked:hover:border-borders checked:border-8 checked:bg-blue"
+                            name="system" value="metric"><label for="metric-system"
+                            class="text-body-m font-semibold">Metric</label></div>
+                    <div class="flex flex-start items-center"><input id="imperial-system" type="radio"
+                            class="mr-5 w-8 h-8 appearance-none border bg-pure-white border-borders rounded-full hover:border-blue hover:cursor-pointer checked:hover:border-borders checked:border-8 checked:bg-blue"
+                            name="system" value="imperial"><label for="imperial-system"
+                            class="text-body-m font-semibold">Imperial</label></div>
+                </div>
+                <form class="grid gap-y-4">
+                    <div class="col-span-1 flex flex-col gap-y-2"><label for="height"
+                            class="text-body-s font-normal leading-body text-dark-electric-blue">Height</label>
+                        <div class="flex items-center"><input id="height" placeholder="0"
+                                class="font-custom text-heading-m w-full px-6 py-3.5 rounded-xl border border-borders bg-pure-white focus:outline-none"
+                                name="height"><span
+                                class="text-heading-m text-blue font-semibold -ml-12 md:-ml-16">cm</span></div>
+                    </div>
+                    <div class="col-span-1 flex flex-col gap-y-2">
+                        <label for="weight" class="text-body-s font-normal leading-body text-dark-electric-blue">
+                            Weight
+                        </label>
+                        <div class="flex items-center">
+                            <input name="weight" id="weight" placeholder="0"
+                                class="font-custom text-heading-m w-full px-6 py-3.5 rounded-xl border border-borders bg-pure-white focus:outline-none">
+                            <span class="text-heading-m text-blue font-semibold -ml-12 md:-ml-16">kg</span>
+                        </div>
+                    </div>
+                </form>
+
+                <button
+                    class="w-full bg-purple-500 text-white text-md font-semibold rounded-lg py-3.5">Calculate</button>
+            </div>
+        </section>
+    </main>
+    
+{%endblock%}

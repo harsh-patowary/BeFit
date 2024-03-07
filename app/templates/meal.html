@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %} Meal Plan {%endblock %}
+ {% block content %} 
+
+    <main class="pt-0 max-w-7xl mx-auto">
+        <section class="bg-purple-50 py-5 px-6 pt-10 space-y-5">
+            <div class="flex flex-col gap-1">
+                <h1 class="text-3xl font-bold">Food Recipies For You</h1>
+                <p class="font-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+            </div>
+
+            <div class="grid md:flex gap-3 items-center justify-between">
+                <form class="h-12 flex border rounded-lg overflow-hidden mt-3">
+                    <input type="search" class="w-full h-full px-4 focus:outline-none">
+                    <button type="button" class="w-12 inline-flex justify-center items-center bg-purple-600 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-search">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </button>
+                </form>
+                <div class="md:mt-5 grid grid-cols-3 gap-1 mb-5 items-center justify-center">
+                    <button
+                        class="h-12 inline-flex justify-center items-center px-2 bg-purple-600 text-white font-semibold rounded-xl">
+                        <span class="inline-flex gap-2 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-heart">
+                                <path
+                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                            </svg>
+                            Favorites
+                        </span>
+                    </button>
+                    <button
+                        class="h-12 inline-flex justify-center items-center px-2 bg-purple-600 text-white font-semibold rounded-xl">
+                        <span class="inline-flex gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-arrow-down-z-a">
+                                <path d="m3 16 4 4 4-4" />
+                                <path d="M7 4v16" />
+                                <path d="M15 4h5l-5 6h5" />
+                                <path d="M15 20v-3.5a2.5 2.5 0 0 1 5 0V20" />
+                                <path d="M20 18h-5" />
+                            </svg>
+                            Sorting
+                        </span>
+                    </button>
+                    <button
+                        class="h-12 inline-flex justify-center items-center px-2 bg-purple-600 text-white font-semibold rounded-xl">
+                        <span class="inline-flex gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-sliders-horizontal">
+                                <line x1="21" x2="14" y1="4" y2="4" />
+                                <line x1="10" x2="3" y1="4" y2="4" />
+                                <line x1="21" x2="12" y1="12" y2="12" />
+                                <line x1="8" x2="3" y1="12" y2="12" />
+                                <line x1="21" x2="16" y1="20" y2="20" />
+                                <line x1="12" x2="3" y1="20" y2="20" />
+                                <line x1="14" x2="14" y1="2" y2="6" />
+                                <line x1="8" x2="8" y1="10" y2="14" />
+                                <line x1="16" x2="16" y1="18" y2="22" />
+                            </svg>
+                            Filter
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="pt-5 pb-8 px-6 bg-purple-50 rounded-b-lg border-t">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div
+                    class="flex flex-col rounded-lg overflow-hidden bg-white shadow group hover:scale-105 duration-500">
+                    <div class="relative">
+                        <img
+                            src="https://www.healthymealplans.com/static/images/landing-2020/specialty-meal-plan-12week@2x.png">
+
+                        <button
+                            class="absolute bottom-2 right-2 bg-purple-100 text-purple-500 z-1 p-2 rounded-lg hover:bg-purple-500 hover:text-purple-800 duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-heart">
+                                <path
+                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-2 p-4">
+                        <h2 class="text-lg font-semibold">Grilled Chiken & Vegetables</h2>
+                        <p class="text-sm font-light">
+                            Smassed potato & Sweet Onion Garlic & Cascium
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex flex-col rounded-lg overflow-hidden bg-white shadow group hover:scale-105 duration-500">
+                    <div class="relative">
+                        <img
+                            src="https://www.healthymealplans.com/static/images/landing-2020/specialty-meal-plan-12week@2x.png">
+
+                        <button
+                            class="absolute bottom-2 right-2 bg-purple-100 text-purple-500 z-1 p-2 rounded-lg hover:bg-purple-500 hover:text-purple-800 duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-heart">
+                                <path
+                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-2 p-4">
+                        <h2 class="text-lg font-semibold">Grilled Chiken & Vegetables</h2>
+                        <p class="text-sm font-light">
+                            Smassed potato & Sweet Onion Garlic & Cascium
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex flex-col rounded-lg overflow-hidden bg-white shadow group hover:scale-105 duration-500">
+                    <div class="relative">
+                        <img
+                            src="https://www.healthymealplans.com/static/images/landing-2020/specialty-meal-plan-12week@2x.png">
+
+                        <button
+                            class="absolute bottom-2 right-2 bg-purple-100 text-purple-500 z-1 p-2 rounded-lg hover:bg-purple-500 hover:text-purple-800 duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-heart">
+                                <path
+                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-2 p-4">
+                        <h2 class="text-lg font-semibold">Grilled Chiken & Vegetables</h2>
+                        <p class="text-sm font-light">
+                            Smassed potato & Sweet Onion Garlic & Cascium
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex flex-col rounded-lg overflow-hidden bg-white shadow group hover:scale-105 duration-500">
+                    <div class="relative">
+                        <img
+                            src="https://www.healthymealplans.com/static/images/landing-2020/specialty-meal-plan-12week@2x.png">
+
+                        <button
+                            class="absolute bottom-2 right-2 z-1 p-2 rounded-lg bg-purple-500 text-purple-100 duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-heart">
+                                <path
+                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-2 p-4">
+                        <h2 class="text-lg font-semibold">Grilled Chiken & Vegetables</h2>
+                        <p class="text-sm font-light">
+                            Smassed potato & Sweet Onion Garlic & Cascium
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    {% endblock %} 
