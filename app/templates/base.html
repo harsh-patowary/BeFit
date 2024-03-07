@@ -66,7 +66,7 @@
             <a
               class="text-sm font-medium text-purple-700"
               href="{{url_for('index')}}"
-              >Home</a
+              >Homie</a
             >
             <a
               class="text-sm font-medium text-grey-900 hover:text-purple-700"
@@ -150,6 +150,7 @@
         </button>
       </div>
     </nav>
+      {% endif %}
       </header>
 
       <header
@@ -275,18 +276,12 @@
           </li>
         </ul>
       </header>
-      <div>
-        {% if not logged_in %}
-          <p>Logged in</p>
-        {% else %}
-        <p>logged in</p>
-        {% endif %}
-      </div>
+      
       <div>
       {% for message in get_flashed_messages() %}
         <div class="alert alert-danger">{{ message }}</div>
 
-        {% endfor %}
+      {% endfor %}
       </div>
       <div class="flex justify-center items-center">
         

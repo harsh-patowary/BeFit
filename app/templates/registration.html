@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %} User Registration{% endblock %} {%
 block content %}
-<form class="w-full max-w-lg">
+<form method="post" class="w-full max-w-lg">
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
       <label
@@ -46,6 +46,7 @@ block content %}
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-password"
         type="password"
+        name="usr_password"
         placeholder="******************"
       />
       <p class="text-gray-600 text-xs italic">
@@ -96,27 +97,48 @@ block content %}
       </label>
       <div class="relative">
         <label>
-          <input class="appearance-none block w-full bg-gray-200 text-gray-700
-          border border-gray-200 rounded py-3 px-4 leading-tight
-          focus:outline-none focus:bg-white focus:border-gray-500" type="date"
-          name="bday" />
+          <input
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="date"
+            name="bday"
+          />
         </label>
       </div>
-
     </div>
-    
-    <div class="md:flex md:items-center">
-      <div class="md:w-2/3">
-        <button
-          class="shadow bg-purple-500 hover:bg-purple-700 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          type="submit"
-        >
-          Sign up
-        </button>
-      </div>
+  </div>
+  <div class="grid grid-cols-2 gap-x-6 ">
+    <div class="flex flex-start items-center">
+      <input
+        id="metric-system"
+        type="radio"
+        class="mr-5 w-8 h-8 appearance-none border bg-pure-white border-borders rounded-full hover:border-blue hover:cursor-pointer checked:hover:border-borders checked:border-8 checked:bg-blue"
+        name="unit"
+        value="m"
+      /><label for="metric-system" class="text-body-m font-semibold"
+        >Metric</label
+      >
     </div>
-
-    <div></div>
+    <div class="flex flex-start items-center">
+      <input
+        id="imperial-system"
+        type="radio"
+        class="mr-5 w-8 h-8 appearance-none border bg-pure-white border-borders rounded-full hover:border-blue hover:cursor-pointer checked:hover:border-borders checked:border-8 checked:bg-blue"
+        name="unit"
+        value="i"
+      /><label for="imperial-system" class="text-body-m font-semibold"
+        >Imperial</label
+      >
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-x-6 ">
+    <div class="md:w-2/3 md:flex md:items-center ">
+      <button
+        class="shadow bg-purple-500 hover:bg-purple-700 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        type="submit"
+      >
+        Sign up
+      </button>
+    </div>
   </div>
 </form>
 <!-- <script src="{{ url_for('static', filename='datepicker.js')}}"></script> -->

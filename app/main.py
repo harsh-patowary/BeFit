@@ -22,6 +22,7 @@ def index():
     if 'logged_in' in session:
         return render_template('index.html')
     else:
+        session['logged_in'] = False
         return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -61,32 +62,39 @@ def register():
 def login():
     # use login info to pull userData from sql/csv and initialize global User Object
     global user_data;
-    if request.method == 'POST' and not session['logged_in']:
-        usr_email = request.form['email']
-        usr_password = request.form['usr_password']
-        print(f"{usr_email} {usr_password}")
-        login_state = False
-        with open("data.csv", "r") as file:
-            csvreader = csv.reader(file)
-            for line in csvreader:
-                if usr_email==line[0] and usr_password==line[1]:
-                    user_data = user_data.load_user(usr_email)
-                    session['logged_in'] = True
-                    session['username'] = usr_email
-                    print(session['username'])
-                    print(session)
-                    login_state = True
-                    # return redirect(url_for('calorie_tracker'))
-        if login_state:
-             return redirect(url_for('calorie_tracker'))
-        else:
-            flash("Wrong Credentials")
+    if not session['logged_in']:
+        if request.method == 'POST':
+            usr_email = request.form['email']
+            usr_password = request.form['usr_password']
+            print(f"{usr_email} {usr_password}")
+            login_state = False
+            with open("data.csv", "r") as file:
+                csvreader = csv.reader(file)
+                for line in csvreader:
+                    if usr_email==line[0] and usr_password==line[1]:
+                        user_data = user_data.load_user(usr_email)
+                        session['logged_in'] = True
+                        session['username'] = usr_email
+                        print(session['username'])
+                        print(session)
+                        login_state = True
+                        # return redirect(url_for('calorie_tracker'))
+            if login_state:
+                return redirect(url_for('calorie_tracker'))
+            else:
+                flash("Wrong Credentials")
     
     else: 
         flash('Already logged in')
         return redirect(url_for('calorie_tracker'))
                 
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session['logged_in'] = False
+    return redirect(url_for('login'))
 
 @app.route('/bmi', methods = ['GET', 'POST']) 
 def bmi():
@@ -120,12 +128,16 @@ def calorie_tracker():
     global tot_calories
     global user_data
     name = user_data._name
-    logged_in = session['logged_in']
-    if session['logged_in'] != True:
+    
+    logged_in=session['logged_in']
+    
+    if logged_in != True:
         flash("You are not logged in")
-        redirect(url_for('login'))
+        print(f"redirecting....")
+        return redirect(url_for('login'))
         
-    else: 
+    else:
+        print(session['username'])
         if request.method == 'POST':
             ingredient = request.form['ingredient']
             usr_ingr_amount = float(request.form['ingr_weight'])
@@ -150,6 +162,8 @@ def calorie_tracker():
                 total_calories = round(tot_calories)
                 print(food_log)
                 return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name)
+            
+        # return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
             
 
     return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
