@@ -20,7 +20,7 @@ user_data = UserData(None, None, None, None, None, None, None)
 @app.route('/')
 def index():
     if 'logged_in' in session:
-        return render_template('index.html')
+        return render_template('index.html', logged_in=session['logged_in'])
     else:
         session['logged_in'] = False
         return redirect(url_for('login'))
@@ -116,9 +116,9 @@ def bmi():
             usr_bmiStatus = usr_data.bmi_class()
             usr_bmi = round(usr_data._bmi)
             # BFUtils.insert_data("/data.csv", usr_data.convert_to_array())
-            return render_template('bmi.html', usr_bmi=usr_bmi, usr_bmiStatus=usr_bmiStatus)
+            return render_template('bmi.html', usr_bmi=usr_bmi, usr_bmiStatus=usr_bmiStatus, logged_in=session['logged_in'])
     
-    return render_template('bmi.html')
+    return render_template('bmi.html', logged_in=session['logged_in'])
 
 
 
@@ -131,7 +131,7 @@ def calorie_tracker():
     
     logged_in=session['logged_in']
     
-    if logged_in != True:
+    if logged_in != True or logged_in == None:
         flash("You are not logged in")
         print(f"redirecting....")
         return redirect(url_for('login'))
@@ -139,29 +139,36 @@ def calorie_tracker():
     else:
         print(session['username'])
         if request.method == 'POST':
-            ingredient = request.form['ingredient']
+            food_name = request.form['food_name']
             usr_ingr_amount = float(request.form['ingr_weight'])
-            ENCODED_ingredient = BFUtils.remove_space(ingredient)
+            ENCODED_ingredient = BFUtils.remove_space(food_name)
             
-            if not ingredient:
+            if not food_name:
                 flash("Ingrediant is needed")
             else:
                 
                 api_url = f"https://api.edamam.com/api/nutrition-data?app_id={app_id}&app_key={app_key}&nutrition-type=logging&ingr={ENCODED_ingredient}"
+                
                 response = requests.get(api_url).json()
                 fooCal = response["calories"]
+                fooSugar = response["SUGAR"]["quantity"]
+                fooFat = response["FAT"]["quantity"]
+                fooCholestrol = response["CHOLE"]["quantity"]
+                fooCarbs = response["CHOCDF.net"]["quantity"]
+                ingredients = response[ingredients]
+                print(response)
                 fooIngrWeight = response["totalWeight"]
                 calories_perGram = BFUtils.cal_perGram(float(fooCal), float(fooIngrWeight))
                 print(type(response))
                 calories = calories_perGram * usr_ingr_amount
-                print(f"Ingredients: {ingredient}, Calories: {calories}, {fooIngrWeight}, {fooCal}\n")
+                print(f"Ingredients: {food_name}, Calories: {calories}, {fooIngrWeight}, {fooCal}\n")
                 food_details = {'calories' : round(calories), 'user_consumption' : usr_ingr_amount}
-                flag = {ingredient: food_details}
+                flag = {food_name: food_details}
                 food_log.update(flag)
                 tot_calories += round(calories)
                 total_calories = round(tot_calories)
                 print(food_log)
-                return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name)
+                return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name, logged_in=logged_in)
             
         # return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
             

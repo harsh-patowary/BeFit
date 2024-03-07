@@ -1,33 +1,7 @@
 {% extends 'base.html' %} {% block title %} Calorie Tracker {% endblock %} {%
 block content %}
 <h1>Welcome {{ name }} please enter your daily calorie intake</h1>
-<!-- <form action="" class="container" method="post">
-  <div class="row">
-    <div class="col-3 mb-3 mt-3">
-      <label for="ingredient">Enter the Ingredient/Food</label>
-      <input
-        type="ingredient"
-        class="form-control"
-        id="ingredient"
-        placeholder="Enter ingredient"
-        name="ingredient"
-        value="{{ request.form['ingredient'] }}"
-      />
-    </div>
-    <div class="col-3 mb-3 mt-3">
-      <label for="ingr_weight">Enter Amount</label>
-      <input
-        type="ingr_weight"
-        class="form-control"
-        id="ingr_weight"
-        placeholder="Enter in grams"
-        name="ingr_weight"
-        value="{{ request.form['ingr_weight'] }}"
-      />
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Enter</button>
-</form> -->
+
 
 <form class="my-8 w-full max-w-sm" method="post">
   <div class="flex items-center border-b border-purple-700 py-2">
@@ -35,7 +9,7 @@ block content %}
       class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
       type="text"
       placeholder="Food name"
-      name="ingredient"
+      name="food_name"
       aria-label="Full name"
     />
     <input
