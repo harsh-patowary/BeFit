@@ -207,15 +207,15 @@ class BFUtils:
     def generate_pdf(filename):
                 # initializing variables with values
         fileName = filename
-        documentTitle = 'sample'
+        documentTitle = 'BEFIT Nutrional Analysis'
         title = 'Technology'
         subTitle = 'The largest thing now!!'
         textLines = [
-            'Technology makes us aware of',
-            'the world around us.',
+            f'The Following graphs represt the food intake of the user',
+            f'',
         ]
         image1 = 'calories_plot.png'
-        image2 = 'carbohydrates.png'
+        image2 = 'carbohydrates_plot.png'
         image3 = 'fat_plot.png'
         image4 = 'sugar_plot.png'
         image5 = 'cholestrol_plot.png'
@@ -256,7 +256,11 @@ class BFUtils:
         
         # drawing a image at the 
         # specified (x.y) position
-        pdf.drawInlineImage(image, 50, 100, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image1, 50, 100, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image2, 50, 200, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image3, 50, 300, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image4, 50, 400, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image5, 50, 500, 400, 450, preserveAspectRatio=True)
         
         # saving the pdf
         pdf.save()

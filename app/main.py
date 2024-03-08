@@ -286,6 +286,8 @@ def generate_analysis():
             p4 = BFUtils.generate_graphs(mat, sugar_points, "Total Sugar", "Sugar")
             p5 = BFUtils.generate_graphs(mat, choles_points, "Total Cholestrol", "Cholestrol")
             
+            BFUtils.generate_pdf("analysis.pdf")
+            
 
             
     return render_template('generate-pdf.html', logged_in=logged_in)
