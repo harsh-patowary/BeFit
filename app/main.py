@@ -15,6 +15,7 @@ app_id = "d16a2064"
 app_key = "754bc0f60796c0031d1da99d58a3f1da"
 food_log = dict()
 tot_calories = 0
+date = ""
 user_data = UserData(None, None, None, None, None, None, None)
 
 @app.route('/')
@@ -50,7 +51,7 @@ def register():
             user_data = UserData(usr_email, usr_password, usr_name, usr_age, usr_height, usr_weight, bmi_unit)
             data_list = user_data.convert_to_array()
             if not BFUtils.check_userValidity(user_data._name):
-                BFUtils.insert_data(data_list)
+                BFUtils.insert_user(data_list)
                 flash("User Registration complete!!")
                 return redirect(url_for('login'))
             else:
@@ -73,6 +74,8 @@ def login():
                 for line in csvreader:
                     if usr_email==line[0] and usr_password==line[1]:
                         user_data = user_data.load_user(usr_email)
+                        # print(user_data.calc_bmi)
+                        # print(user_data._bmi)
                         session['logged_in'] = True
                         session['username'] = usr_email
                         print(session['username'])
@@ -128,6 +131,7 @@ def calorie_tracker():
     global tot_calories
     global user_data
     name = user_data._name
+    global date
     
     logged_in=session['logged_in']
     
@@ -139,48 +143,105 @@ def calorie_tracker():
     else:
         print(session['username'])
         if request.method == 'POST':
-            food_name = request.form['food_name']
-            usr_ingr_amount = float(request.form['ingr_weight'])
-            ENCODED_ingredient = BFUtils.remove_space(food_name)
-            
-            if not food_name:
-                flash("Ingrediant is needed")
+            if request.form['food_name']:
+                
+                food_name = request.form['food_name']
+                
+                usr_ingr_amount = float(request.form['ingr_weight'])
+                ENCODED_ingredient = BFUtils.remove_space(food_name)
+                
+                if not food_name and usr_ingr_amount:
+                    flash("Food and amount are needed")
+                else:
+                    
+                    api_url = f"https://api.edamam.com/api/nutrition-data?app_id={app_id}&app_key={app_key}&nutrition-type=logging&ingr={ENCODED_ingredient}"
+                    
+                    response = requests.get(api_url).json()
+                    fooCal = response["calories"]
+                    # fooSugar = response["SUGAR"]["quantity"]
+                    # fooFat = response["FAT"]["quantity"]
+                    # fooCholestrol = response["CHOLE"]["quantity"]
+                    # fooCarbs = response["CHOCDF.net"]["quantity"]
+                    print(response)
+                    nutrients_dict = {}
+                    code = requests.head(api_url)
+                    
+                    if response['totalWeight'] > 0:
+                        for ingredient in response['ingredients']:
+                            
+                            for item in ingredient['parsed']:
+                                key = item['food']  # or any other unique identifier you prefer
+                                nutrients_dict = item['nutrients']
+                        
+                        fooFoodWeight = response["totalWeight"]
+                    
+                        fooSugar = nutrients_dict['SUGAR']["quantity"]
+                        fooCholestrol = nutrients_dict['CHOLE']["quantity"]
+                        fooFat = nutrients_dict["FAT"]["quantity"]
+                        fooCarbs = nutrients_dict["CHOCDF"]["quantity"]
+                        print(nutrients_dict)
+                        print(fooSugar)
+                        print(fooCarbs)
+                        calories_perGram = BFUtils.nutrients_perGram(float(fooCal), float(fooFoodWeight))
+                        print((response))
+                        calories = calories_perGram * usr_ingr_amount
+                        sugar = (BFUtils.nutrients_perGram(float(fooSugar), float(fooFoodWeight))) * fooFoodWeight
+                        fat = BFUtils.nutrients_perGram(float(fooFat), float(fooFoodWeight))
+                        cholestrol = BFUtils.nutrients_perGram(float(fooCholestrol), float(fooFoodWeight))
+                        carbs = (BFUtils.nutrients_perGram(float(fooCarbs), float(fooFoodWeight))) * fooFoodWeight
+                        print(f"Ingredients: {food_name}, Calories: {calories}, Food Weight: {fooFoodWeight}, Sugar: {sugar}, Carbs : {carbs}\n")
+                        food_details = {'calories' : round(calories, 3), 
+                                        'user_consumption' : usr_ingr_amount, 
+                                        'sugar' : round(sugar, 3),
+                                        'fat': round(fat, 3),
+                                        'cholestrol': round(cholestrol, 3),
+                                        'carbs' : round(carbs, 3)}
+                        flag = {food_name: food_details}
+                        food_log.update(flag)
+                        tot_calories += round(calories)
+                        print(food_log)
+                        total_calories = round(tot_calories)
+                        print(food_log)
+                        
+                        return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name, logged_in=logged_in)
+                    
+                    else: 
+                        flash("Invalid response!!")
+                    
             else:
+                flash('Food, amount is needed')
                 
-                api_url = f"https://api.edamam.com/api/nutrition-data?app_id={app_id}&app_key={app_key}&nutrition-type=logging&ingr={ENCODED_ingredient}"
-                
-                response = requests.get(api_url).json()
-                fooCal = response["calories"]
-                fooSugar = response["SUGAR"]["quantity"]
-                fooFat = response["FAT"]["quantity"]
-                fooCholestrol = response["CHOLE"]["quantity"]
-                fooCarbs = response["CHOCDF.net"]["quantity"]
-                ingredients = response[ingredients]
-                print(response)
-                fooIngrWeight = response["totalWeight"]
-                calories_perGram = BFUtils.cal_perGram(float(fooCal), float(fooIngrWeight))
-                print(type(response))
-                calories = calories_perGram * usr_ingr_amount
-                print(f"Ingredients: {food_name}, Calories: {calories}, {fooIngrWeight}, {fooCal}\n")
-                food_details = {'calories' : round(calories), 'user_consumption' : usr_ingr_amount}
-                flag = {food_name: food_details}
-                food_log.update(flag)
-                tot_calories += round(calories)
-                total_calories = round(tot_calories)
-                print(food_log)
-                return render_template('calorie-tracker.html', food_log=food_log, total_calories=total_calories, name=name, logged_in=logged_in)
+            
+        # return render_template('calorie-tracker.html', logged_in=logged_in)
+        return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
+            
             
         # return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
-            
-
-    return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
 
 
-@app.route("/submitting")
+    
+
+
+@app.route("/submitting", methods=['GET', 'POST'])
 def submitting():
+    global food_log
+    global tot_calories
     # todo: submit given info with all user & food tracking info into csv/database with the submit button
     # idkkdkdkdkdk howwww
-    return render_template('calorie-tracker.html')
+    # daily_user_intake = [user_data._email, ]
+    # date = request.form['date']
+    if request.method == 'POST':
+        date = request.form['date']
+        print(type(date))
+        food_name = next(iter(food_log))
+        
+        user_intake = [user_data._email, date, tot_calories, food_log[food_name]['carbs'], food_log[food_name]['fat'], food_log[food_name]['sugar'], food_log[food_name]['cholestrol']]
+        print(user_intake)  # For demonstration, simply print the value. Process as needed.
+        BFUtils.insert_food_data(user_intake)
+        food_log.clear()
+        return redirect(url_for('calorie_tracker'))
+    # 
+    return render_template('test.html')
 
 
 @app.route('/delete_item/<food>')

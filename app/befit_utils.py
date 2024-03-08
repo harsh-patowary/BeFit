@@ -73,8 +73,23 @@ class UserData:
             for user in users:
                 if user[0] == email:
                     return self.convert_to_obj(user)
-       
+
+
+
 class BFUtils:
+    
+    def load_user_intake(self, email):
+        
+        with open("user_diet_data.csv", "r") as file:
+            intake_data = csv.reader(file)
+            total_user_intake = {}
+            for intake_entry in intake_data:
+                if intake_entry[0] == email:
+                    total_user_intake.update(intake_entry)
+                    print(total_user_intake)
+                    
+        return total_user_intake
+                    
     
     def remove_space(ingr):
         newStr = ""
@@ -84,7 +99,7 @@ class BFUtils:
             newStr+=ch
         return newStr
     
-    def insert_data(data):
+    def insert_user(data):
         file_exists = os.path.isfile("data.csv")
         with open("data.csv", "a", newline='') as file:
             csvwriter = csv.writer(file)
@@ -95,8 +110,18 @@ class BFUtils:
                     
             csvwriter.writerow(data)
             
-    def cal_perGram(cal, weigh):
-        return float(cal/weigh)
+    def insert_food_data(data):
+        file_exists = os.path.isfile("user_diet_data.csv")
+        with open("user_diet_data.csv", "a", newline='') as file:
+            csvwriter = csv.writer(file)
+            if not file_exists:
+                header = ['email', 'date', 'total_Calories', 'total_carbs', 'total_fat', 'total_sugar', 'total_cholestrol']
+                csvwriter.writerow(header)
+                
+            csvwriter.writerow(data)
+            
+    def nutrients_perGram(nut, weigh):
+        return float(nut/weigh)
     
     def check_userValidity(user):
         with open("data.csv", "r") as file:

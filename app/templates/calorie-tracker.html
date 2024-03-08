@@ -2,8 +2,7 @@
 block content %}
 <h1>Welcome {{ name }} please enter your daily calorie intake</h1>
 
-
-<form class="my-8 w-full max-w-sm" method="post">
+<form class="my-8 w-full max-w-fit" method="post">
   <div class="flex items-center border-b border-purple-700 py-2">
     <input
       class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
@@ -20,7 +19,7 @@ block content %}
       aria-label="Full name"
     />
     <button
-      class="flex-shrink-0 bg-purple-700 hover:bg-purple-700 border-purple-700 hover:bg-purple-500 text-sm border-4 text-white py-1 px-2 rounded"
+      class="flex-shrink-0 bg-purple-700 hover:bg-purple-700 border-purple-700 hover:bg-purple-500 text-sm border-4 text-white mr-3 py-1 px-2 rounded"
       type="submit"
     >
       Add
@@ -38,6 +37,10 @@ block content %}
       <tr>
         <th scope="col" class="px-6 py-3">Food name</th>
         <th scope="col" class="px-6 py-3">Calories (cal)</th>
+        <th scope="col" class="px-6 py-3">Fat (g)</th>
+        <th scope="col" class="px-6 py-3">Cholestrol (g)</th>
+        <th scope="col" class="px-6 py-3">Sugar (g)</th>
+        <th scope="col" class="px-6 py-3">Carbohydrate (g)</th>
         <th scope="col" class="px-6 py-3">Consumption (g)</th>
         <th scope="col" class="px-6 py-3">Action</th>
       </tr>
@@ -54,6 +57,10 @@ block content %}
           {{ food }}
         </th>
         <td class="px-6 py-4">{{ details.calories }}</td>
+        <td class="px-6 py-4">{{ details.fat }}</td>
+        <td class="px-6 py-4">{{ details.cholestrol }}</td>
+        <td class="px-6 py-4">{{ details.sugar }}</td>
+        <td class="px-6 py-4">{{ details.carbs }}</td>
         <td class="px-6 py-4">{{ details.user_consumption }}</td>
         <td class="px-6 py-4">
           <a
@@ -72,19 +79,22 @@ block content %}
           scope="row"
           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
         >
-          Total Calories
+          Total
         </th>
         <th
           scope="row"
           class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-        >{{total_calories}}
-      </th>
+        >
+          {{total_calories}}
+        </th>
+        <td class="px-6 py-4"></td>
+        <td class="px-6 py-4"></td>
         <td class="px-6 py-4"></td>
         <td class="px-6 py-4">
           <button
             class="shadow bg-purple-700 hover:bg-purple-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="button"
-            onclick="window.location.href = '/submitting'; "
+            onclick=" window.location.href = '/submitting' ; "
           >
             Submit
           </button>

@@ -53,7 +53,7 @@
       <header
         class="w-full hidden md:block shadow sticky top-0 left-0 z-[100] bg-white"
       >
-      {% if not logged_in %}
+        {% if not logged_in %}
         <nav
           class="flex container mx-auto px-4 group relative shrink-0 flex-wrap items-center justify-between bg-white py-4"
         >
@@ -104,53 +104,52 @@
             </button>
           </div>
         </nav>
-      {% else %}
+        {% else %}
         <nav
-        class="flex container mx-auto px-4 group relative shrink-0 flex-wrap items-center justify-between bg-white py-4"
-      >
-        <div>
-          <img class="h-9" src="../static/logo.png" />
-        </div>
-        <div
-          class="hidden items-center justify-between gap-12 text-black md:flex"
+          class="flex container mx-auto px-4 group relative shrink-0 flex-wrap items-center justify-between bg-white py-4"
         >
-          <a
-            class="text-sm font-medium text-purple-700"
-            href="{{url_for('index')}}"
-            >Home</a
+          <div>
+            <img class="h-9" src="../static/logo.png" />
+          </div>
+          <div
+            class="hidden items-center justify-between gap-12 text-black md:flex"
           >
-          <a
-            class="text-sm font-medium text-grey-900 hover:text-purple-700"
-            href="{{url_for('calorie_tracker')}}"
-            >Calorie Tracker</a
-          >
-          <a
-            class="text-sm font-medium text-grey-900 hover:text-purple-700"
-            href="plan.html"
-            >Meal Plan</a
-          >
-          <a
-            class="text-sm font-medium text-grey-900 hover:text-purple-700"
-            href="{{ url_for('bmi') }}"
-            >Calculator</a
-          >
-          <a
-            class="text-sm font-medium text-grey-900 hover:text-purple-700"
-            href="pricing.html"
-            >Pricing</a
-          >
-        </div>
-        <div class="hidden items-center gap-8 md:flex">
-          
-          <button
-            class="flex items-center rounded-xl bg-purple-100 px-6 py-3 text-sm font-medium text-purple-700 transition hover:bg-opacity-80 focus:bg-opacity-70"
-            onclick=" window.location.href = '/logout' ; "
-          >
-            Log Out
-          </button>
-        </div>
-      </nav>
-      {% endif %}
+            <a
+              class="text-sm font-medium text-purple-700"
+              href="{{url_for('index')}}"
+              >Home</a
+            >
+            <a
+              class="text-sm font-medium text-grey-900 hover:text-purple-700"
+              href="{{url_for('calorie_tracker')}}"
+              >Calorie Tracker</a
+            >
+            <a
+              class="text-sm font-medium text-grey-900 hover:text-purple-700"
+              href="plan.html"
+              >Meal Plan</a
+            >
+            <a
+              class="text-sm font-medium text-grey-900 hover:text-purple-700"
+              href="{{ url_for('bmi') }}"
+              >Calculator</a
+            >
+            <a
+              class="text-sm font-medium text-grey-900 hover:text-purple-700"
+              href="pricing.html"
+              >Pricing</a
+            >
+          </div>
+          <div class="hidden items-center gap-8 md:flex">
+            <button
+              class="flex items-center rounded-xl bg-purple-100 px-6 py-3 text-sm font-medium text-purple-700 transition hover:bg-opacity-80 focus:bg-opacity-70"
+              onclick=" window.location.href = '/logout' ; "
+            >
+              Log Out
+            </button>
+          </div>
+        </nav>
+        {% endif %}
       </header>
 
       <header
@@ -276,18 +275,15 @@
           </li>
         </ul>
       </header>
-      
+
       <div>
-      {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
         <div class="alert alert-danger">{{ message }}</div>
 
-      {% endfor %}
+        {% endfor %}
       </div>
       <div class="flex justify-center items-center">
-        
-        <div class="my-4">
-        {% block content %} {% endblock %}
-        </div>
+        <div class="my-4">{% block content %} {% endblock %}</div>
       </div>
 
       <footer class="pb-14 mt-5 border-t">
