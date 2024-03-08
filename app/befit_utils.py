@@ -208,8 +208,8 @@ class BFUtils:
                 # initializing variables with values
         fileName = filename
         documentTitle = 'BEFIT Nutrional Analysis'
-        title = 'Technology'
-        subTitle = 'The largest thing now!!'
+        title = 'BEfit'
+        subTitle = 'Nutritional report'
         textLines = [
             f'The Following graphs represt the food intake of the user',
             f'',
@@ -220,24 +220,12 @@ class BFUtils:
         image4 = 'sugar_plot.png'
         image5 = 'cholestrol_plot.png'
         
-        # creating a pdf object
         pdf = canvas.Canvas(fileName)
         
-        # setting the title of the document
         pdf.setTitle(documentTitle)
         
-        # registering a external font in python
-        # pdfmetrics.registerFont(
-        #     TTFont('abc', 'SakBunderan.ttf')
-        # )
-        
-        # creating the title by setting it's font 
-        # and putting it on the canvas
-        # pdf.setFont('abc', 36)
         pdf.drawCentredString(300, 770, title)
         
-        # creating the subtitle by setting it's font, 
-        # colour and putting it on the canvas
         pdf.setFillColorRGB(0, 0, 255)
         pdf.setFont("Courier-Bold", 24)
         pdf.drawCentredString(290, 720, subTitle)
@@ -257,10 +245,10 @@ class BFUtils:
         # drawing a image at the 
         # specified (x.y) position
         pdf.drawInlineImage(image1, 50, 100, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image2, 50, 200, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image3, 50, 300, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image4, 50, 400, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image5, 50, 500, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image2, 50, 100, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image3, 50, 100, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image4, 50, 100, 400, 450, preserveAspectRatio=True)
+        pdf.drawInlineImage(image5, 50, 100, 400, 450, preserveAspectRatio=True)
         
         # saving the pdf
         pdf.save()
