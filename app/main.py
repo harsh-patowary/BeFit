@@ -3,6 +3,7 @@ from curses import flash
 from datetime import datetime, timedelta
 import requests
 import json
+import numpy as np
 from flask import Flask, render_template, request, url_for, flash, redirect, session
 from werkzeug.exceptions import abort
 # custom mods
@@ -236,7 +237,7 @@ def generate_analysis():
             print(f"{date1}  {date2}")
             start_date = datetime.strptime(date1, "%Y-%m-%d")
             end_date = datetime.strptime(date2, "%Y-%m-%d")
-            
+
             # Generate dates between start_date and end_date
             dates_in_between = []
             current_date = start_date
@@ -247,14 +248,45 @@ def generate_analysis():
             print(dates_in_between)
             
             total_user_intake = BFUtils.load_user_intake(user_data._email)
-            print(total_user_intake)
+            print(len(total_user_intake))
+            
             index = 0
             
-            for date in dates_in_between:
-                if date == total_user_intake[index][0]:
-                    
-                    index+=1
-                                
+            ranged_intake=[]
+            ranged_dates = []
+            for intake in total_user_intake:
+                # s1 = intake[0]
+                # print(f"{intake[0]} : {intake[1]}")
+                # s2 = dates_in_between[index]
+                # print(dates_in_between[index])
+                for date in dates_in_between:
+                    if intake[0] == date:
+                        print("intake.....step")
+                        ranged_intake.append(intake)
+                        ranged_dates.append(date)
+                        
+            print(ranged_intake)
+            print(ranged_dates)
+            mat = np.array(ranged_dates)
+            calorie_points = np.array(BFUtils.get_calories(ranged_intake))
+            carbs_points = np.array(BFUtils.get_carbs(ranged_intake))
+            fat_points = np.array(BFUtils.get_fat(ranged_intake))
+            sugar_points = np.array(BFUtils.get_sugar(ranged_intake))
+            choles_points = np.array(BFUtils.get_cholestrol(ranged_intake))
+            print(calorie_points) 
+            print(carbs_points)
+            print(fat_points)
+            print(sugar_points)
+            print(choles_points)
+            calorie_fat = BFUtils.get_fat(ranged_intake)
+            carbs_cholestrol = BFUtils.get_cholestrol(ranged_intake)
+            p1 = BFUtils.generate_graphs(mat, calorie_points, "Total Calories", "calories")
+            p2 = BFUtils.generate_graphs(mat, carbs_points, "Total Carbs", "carbohydrates")
+            p3 = BFUtils.generate_graphs(mat, fat_points, "Total Fat", "fat")
+            p4 = BFUtils.generate_graphs(mat, sugar_points, "Total Sugar", "Sugar")
+            p5 = BFUtils.generate_graphs(mat, choles_points, "Total Cholestrol", "Cholestrol")
+            
+
             
     return render_template('generate-pdf.html', logged_in=logged_in)
 

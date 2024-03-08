@@ -1,7 +1,9 @@
 # Util Contents
 import os
 import csv
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use('agg')
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
@@ -142,24 +144,66 @@ class BFUtils:
                 
             return False
         
-    def generate_graphs(x, y):
-        for i in range(3):
-            fig, ax = plt.subplots()
-            # x = [1, 2, 3, 4, 5]
-            # y = [i * val for val in x]
-            ax.plot(x, y)
-            ax.set_xlabel('X-axis')
-            ax.set_ylabel('Y-axis')
-            ax.set_title(f'Graph {i + 1}')
+    def generate_graphs(x, y, title, ylabel):
+        plt.plot(x, y)
+        plt.title("Linear Graph")
+        plt.ylabel(ylabel)
+        plt.xlabel("Dates")
+        temp_fname = f"{ylabel}_plot.png"
+        plt.savefig(temp_fname)
+        plt.close()
+        # for i in range(3):
+        #     fig, ax = plt.subplots()
+        #     # x = [1, 2, 3, 4, 5]
+        #     # y = [i * val for val in x]
+        #     ax.plot(x, y)
+        #     ax.set_xlabel('X-axis')
+        #     ax.set_ylabel('Y-axis')
+        #     ax.set_title(f'Graph {title}')
             
-            # Save the Matplotlib figure to a temporary file
-            temp_filename = f'temp_plot_{i}.png'
-            plt.savefig(temp_filename)
+        #     # Save the Matplotlib figure to a temporary file
+        #     temp_filename = f'temp_plot_{i}.png'
+        #     plt.savefig(temp_filename)
             
-            # Add the Matplotlib figure to the PDF as an image
+        #     # Add the Matplotlib figure to the PDF as an image
            
-            plt.close()
+        #     plt.close()
+    
+    def get_calories(data):
+        flag = []
+        for entry in data:
+            flag.append(entry[1])
         
+        return flag
+    
+    def get_carbs(data):
+        flag = []
+        for entry in data:
+            flag.append(entry[2])
+        
+        return flag
+    
+    def get_fat(data):
+        flag = []
+        for entry in data:
+            flag.append(entry[3])
+        
+        return flag
+    
+    def get_sugar(data):
+        flag = []
+        for entry in data:
+            flag.append(entry[4])
+        
+        return flag
+
+    def get_cholestrol(data):
+        flag = []
+        for entry in data:
+            flag.append(entry[5])
+        
+        return flag
+    
     def generate_pdf(filename):
                 # initializing variables with values
         fileName = filename
@@ -170,7 +214,11 @@ class BFUtils:
             'Technology makes us aware of',
             'the world around us.',
         ]
-        image = '../static/logo-4.png'
+        image1 = 'calories_plot.png'
+        image2 = 'carbohydrates.png'
+        image3 = 'fat_plot.png'
+        image4 = 'sugar_plot.png'
+        image5 = 'cholestrol_plot.png'
         
         # creating a pdf object
         pdf = canvas.Canvas(fileName)
