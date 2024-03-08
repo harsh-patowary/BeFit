@@ -1,14 +1,22 @@
 {% extends 'base.html' %} {% block title %} Calorie Tracker {% endblock %} 
 
 {%block content %}
-<h1>Please select date of intake</h1>
+<h1>Please enter date range for diet Analysis</h1>
 <form class="my-8 w-full max-w-fit" method="post">
     <div class="flex items-center border-b border-purple-700 py-2">
-      <form action="{{ url_for('submitting') }}" method="post"></form>
+      <form action="{{ url_for('generate_analysis') }}" method="post"></form>
         <input
           class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded mr-3 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           type="date"
-          name="date"
+          name="date1"
+          value="20-12-2004"
+          id="dateField"
+        />
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded mr-3 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          type="date"
+          name="date2"
+          value="20-12-2004"
           id="dateField"
         />
         

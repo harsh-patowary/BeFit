@@ -1,6 +1,15 @@
 # Util Contents
 import os
 import csv
+import matplotlib.pyplot as plt
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.graphics.shapes import Drawing
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.graphics.charts.barcharts import VerticalBarChart
 # import numpy as np
 class UserData:
     
@@ -78,15 +87,16 @@ class UserData:
 
 class BFUtils:
     
-    def load_user_intake(self, email):
+    def load_user_intake(email):
         
         with open("user_diet_data.csv", "r") as file:
             intake_data = csv.reader(file)
-            total_user_intake = {}
+            total_user_intake = []
             for intake_entry in intake_data:
                 if intake_entry[0] == email:
-                    total_user_intake.update(intake_entry)
-                    print(total_user_intake)
+                    flag = [intake_entry[1], intake_entry[2], intake_entry[3], intake_entry[4], intake_entry[5], intake_entry[6]]
+                    total_user_intake.append(flag)
+                    # print(total_user_intake)
                     
         return total_user_intake
                     
@@ -132,9 +142,77 @@ class BFUtils:
                 
             return False
         
-    
+    def generate_graphs(x, y):
+        for i in range(3):
+            fig, ax = plt.subplots()
+            # x = [1, 2, 3, 4, 5]
+            # y = [i * val for val in x]
+            ax.plot(x, y)
+            ax.set_xlabel('X-axis')
+            ax.set_ylabel('Y-axis')
+            ax.set_title(f'Graph {i + 1}')
+            
+            # Save the Matplotlib figure to a temporary file
+            temp_filename = f'temp_plot_{i}.png'
+            plt.savefig(temp_filename)
+            
+            # Add the Matplotlib figure to the PDF as an image
+           
+            plt.close()
         
-                
+    def generate_pdf(filename):
+                # initializing variables with values
+        fileName = filename
+        documentTitle = 'sample'
+        title = 'Technology'
+        subTitle = 'The largest thing now!!'
+        textLines = [
+            'Technology makes us aware of',
+            'the world around us.',
+        ]
+        image = '../static/logo-4.png'
+        
+        # creating a pdf object
+        pdf = canvas.Canvas(fileName)
+        
+        # setting the title of the document
+        pdf.setTitle(documentTitle)
+        
+        # registering a external font in python
+        # pdfmetrics.registerFont(
+        #     TTFont('abc', 'SakBunderan.ttf')
+        # )
+        
+        # creating the title by setting it's font 
+        # and putting it on the canvas
+        # pdf.setFont('abc', 36)
+        pdf.drawCentredString(300, 770, title)
+        
+        # creating the subtitle by setting it's font, 
+        # colour and putting it on the canvas
+        pdf.setFillColorRGB(0, 0, 255)
+        pdf.setFont("Courier-Bold", 24)
+        pdf.drawCentredString(290, 720, subTitle)
+        
+        # drawing a line
+        pdf.line(30, 710, 550, 710)
+        
+        # creating a multiline text using 
+        # textline and for loop
+        text = pdf.beginText(40, 680)
+        text.setFont("Courier", 18)
+        text.setFillColor(colors.red)
+        for line in textLines:
+            text.textLine(line)
+        pdf.drawText(text)
+        
+        # drawing a image at the 
+        # specified (x.y) position
+        pdf.drawInlineImage(image, 50, 100, 400, 450, preserveAspectRatio=True)
+        
+        # saving the pdf
+        pdf.save()
+
         
     
     
@@ -149,3 +227,4 @@ class BFUtils:
 #     newString = BFUtils.remove_space(ingredient)
 #     print(ingredient)
 #     print(newString)
+    # BFUtils.generate_pdf("example.pdf")

@@ -1,5 +1,6 @@
 # from crypt import methods
 from curses import flash
+from datetime import datetime, timedelta
 import requests
 import json
 from flask import Flask, render_template, request, url_for, flash, redirect, session
@@ -218,6 +219,44 @@ def calorie_tracker():
             
         # return render_template('calorie-tracker.html', food_log=food_log, total_calories=tot_calories, name=name, logged_in=logged_in)
 
+@app.route("/generate-pdf", methods=['GET', 'POST'])
+def generate_analysis():
+    global user_data
+    logged_in=session['logged_in']
+    
+    if logged_in != True or logged_in == None:
+        flash("You are not logged in")
+        print(f"redirecting....")
+        return redirect(url_for('login'))
+    else:
+        
+        if request.method=='POST':
+            date1 = request.form['date1']
+            date2 = request.form['date2']
+            print(f"{date1}  {date2}")
+            start_date = datetime.strptime(date1, "%Y-%m-%d")
+            end_date = datetime.strptime(date2, "%Y-%m-%d")
+            
+            # Generate dates between start_date and end_date
+            dates_in_between = []
+            current_date = start_date
+            while current_date <= end_date:
+                dates_in_between.append(current_date.strftime("%Y-%m-%d"))
+                current_date += timedelta(days=1)
+
+            print(dates_in_between)
+            
+            total_user_intake = BFUtils.load_user_intake(user_data._email)
+            print(total_user_intake)
+            index = 0
+            
+            for date in dates_in_between:
+                if date == total_user_intake[index][0]:
+                    
+                    index+=1
+                                
+            
+    return render_template('generate-pdf.html', logged_in=logged_in)
 
     
 
