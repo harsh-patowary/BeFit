@@ -13,6 +13,15 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 # import numpy as np
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.pagesizes import A4
+
+pdfmetrics.registerFont(TTFont('Vera', 'Vera.ttf'))
+pdfmetrics.registerFont(TTFont('VeraBd', 'VeraBd.ttf'))
+pdfmetrics.registerFont(TTFont('VeraIt', 'VeraIt.ttf'))
+pdfmetrics.registerFont(TTFont('VeraBI', 'VeraBI.ttf'))
+
 class UserData:
     
     _age = None
@@ -146,7 +155,7 @@ class BFUtils:
         
     def generate_graphs(x, y, title, ylabel):
         plt.plot(x, y)
-        plt.title("Linear Graph")
+        plt.title(f"{ylabel} Chart")
         plt.ylabel(ylabel)
         plt.xlabel("Dates")
         temp_fname = f"{ylabel}_plot.png"
@@ -204,15 +213,19 @@ class BFUtils:
         
         return flag
     
-    def generate_pdf(filename):
+    def generate_pdf(filename, date_range, user):
                 # initializing variables with values
         fileName = filename
         documentTitle = 'BEFIT Nutrional Analysis'
-        title = 'BEfit'
+        title = 'BeFit'
         subTitle = 'Nutritional report'
         textLines = [
-            f'The Following graphs represt the food intake of the user',
-            f'',
+            f'The Following graphs represent the food intake for {user}',
+            f'This is the Calorie Consumption graph for the date range {date_range}',
+            f'This is the Carbohydrates Consumption graph for the date range {date_range}',
+            f'This is the Fat Consumption graph for the date range {date_range}',
+            f'This is the Sugar Consumption graph for the date range {date_range}',
+            f'This is the Cholestrol Consumption graph for the date range {date_range}',
         ]
         image1 = 'calories_plot.png'
         image2 = 'carbohydrates_plot.png'
@@ -220,14 +233,22 @@ class BFUtils:
         image4 = 'sugar_plot.png'
         image5 = 'cholestrol_plot.png'
         
-        pdf = canvas.Canvas(fileName)
+        pdf = canvas.Canvas(fileName, pagesize=A4)
         
+        header_image_width = A4[0]  # Width of the page
+        header_image_height = 100   # Adjust the height as needed
+        header_image_x = 0          # X position of the header image
+        header_image_y = A4[1] - header_image_height  # Y position of the header image
+        # add_image(c, header_image_x, header_image_y, header_image_width, header_image_height, header_image_path)
+
+    # Add content text below the header
+        content_y = header_image_y - 50  # Adjust the vertical position as needed
+        # pdf.transform(100, 100)
         pdf.setTitle(documentTitle)
-        
         pdf.drawCentredString(300, 770, title)
         
-        pdf.setFillColorRGB(0, 0, 255)
-        pdf.setFont("Courier-Bold", 24)
+        pdf.setFillColorRGB(168, 85, 247)
+        pdf.setFont("Vera", 24)
         pdf.drawCentredString(290, 720, subTitle)
         
         # drawing a line
@@ -235,21 +256,60 @@ class BFUtils:
         
         # creating a multiline text using 
         # textline and for loop
-        text = pdf.beginText(40, 680)
-        text.setFont("Courier", 18)
-        text.setFillColor(colors.red)
-        for line in textLines:
-            text.textLine(line)
-        pdf.drawText(text)
+        
+        welcome_text = pdf.beginText(40, 680)
+        welcome_text.setFont("Vera", 11)
+        welcome_text.setFillColor(colors.black)
+        welcome_text.textLine(textLines[0])
+        # for line in textLines:
+        #     text.textLine(line)
+        pdf.drawText(welcome_text)
         
         # drawing a image at the 
         # specified (x.y) position
-        pdf.drawInlineImage(image1, 50, 100, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image2, 50, 100, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image3, 50, 100, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image4, 50, 100, 400, 450, preserveAspectRatio=True)
-        pdf.drawInlineImage(image5, 50, 100, 400, 450, preserveAspectRatio=True)
+        cal_text = pdf.beginText(40, 600)
+        cal_text.setFont("Vera", 11)
+        cal_text.setFillColor(colors.black)
+        cal_text.textLine(textLines[1])
+        pdf.drawText(cal_text)
+        pdf.drawInlineImage(image1, 100, 200, 400, 450, preserveAspectRatio=True)
+        pdf.showPage()
         
+        carbs_text = pdf.beginText(40, 600)
+        carbs_text.setFont("Vera", 11)
+        carbs_text.setFillColor(colors.black)
+        carbs_text.textLine(textLines[2])
+        pdf.drawText(carbs_text)
+        pdf.drawInlineImage(image2, 100, 200, 400, 450, preserveAspectRatio=True)
+        pdf.showPage()
+        
+        fat_text = pdf.beginText(40, 600)
+        fat_text.setFont("Vera", 11)
+        fat_text.setFillColor(colors.black)
+        fat_text.textLine(textLines[3])
+        pdf.drawText(fat_text)
+        pdf.drawInlineImage(image3, 100, 200, 400, 450, preserveAspectRatio=True)
+        pdf.showPage()
+        
+        sugar_text = pdf.beginText(40, 600)
+        sugar_text.setFont("Vera", 11)
+        sugar_text.setFillColor(colors.black)
+        sugar_text.textLine(textLines[4])
+        pdf.drawText(sugar_text)
+        pdf.drawInlineImage(image4, 100, 200, 400, 450, preserveAspectRatio=True)
+        pdf.showPage()
+        
+        chol_text = pdf.beginText(40, 600)
+        chol_text.setFont("Vera", 11)
+        chol_text.setFillColor(colors.black)
+        chol_text.textLine(textLines[5])
+        pdf.drawText(chol_text)
+        pdf.drawInlineImage(image5, 100, 200, 400, 450, preserveAspectRatio=True)
+        os.remove(image1)
+        os.remove(image2)
+        os.remove(image3)
+        os.remove(image4)
+        os.remove(image5)
         # saving the pdf
         pdf.save()
 

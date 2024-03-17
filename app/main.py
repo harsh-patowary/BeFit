@@ -4,12 +4,13 @@ from datetime import datetime, timedelta
 import requests
 import json
 import numpy as np
-from flask import Flask, render_template, request, url_for, flash, redirect, session
+from flask import Flask, render_template, request, url_for, flash, redirect, session, send_file
 from werkzeug.exceptions import abort
 # custom mods
 from app.befit_utils import UserData, BFUtils
 import os
 import csv
+import pdfkit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'harsh004'
@@ -100,6 +101,12 @@ def logout():
     session.pop('username', None)
     session['logged_in'] = False
     return redirect(url_for('login'))
+
+@app.route('/final-report')
+def final_report(calorie_points):
+    global tot_calories
+    
+    return render_template('final-report.html', tot_calories=tot_calories, calorie_points=calorie_points)
 
 @app.route('/bmi', methods = ['GET', 'POST']) 
 def bmi():
@@ -223,6 +230,7 @@ def calorie_tracker():
 @app.route("/generate-pdf", methods=['GET', 'POST'])
 def generate_analysis():
     global user_data
+    global tot_calories
     logged_in=session['logged_in']
     
     if logged_in != True or logged_in == None:
@@ -234,7 +242,7 @@ def generate_analysis():
         if request.method=='POST':
             date1 = request.form['date1']
             date2 = request.form['date2']
-            print(f"{date1}  {date2}")
+            dtr = f"{date1} - {date2}"
             start_date = datetime.strptime(date1, "%Y-%m-%d")
             end_date = datetime.strptime(date2, "%Y-%m-%d")
 
@@ -273,6 +281,7 @@ def generate_analysis():
             fat_points = np.array(BFUtils.get_fat(ranged_intake))
             sugar_points = np.array(BFUtils.get_sugar(ranged_intake))
             choles_points = np.array(BFUtils.get_cholestrol(ranged_intake))
+            
             print(calorie_points) 
             print(carbs_points)
             print(fat_points)
@@ -280,17 +289,28 @@ def generate_analysis():
             print(choles_points)
             calorie_fat = BFUtils.get_fat(ranged_intake)
             carbs_cholestrol = BFUtils.get_cholestrol(ranged_intake)
-            p1 = BFUtils.generate_graphs(mat, calorie_points, "Total Calories", "calories")
-            p2 = BFUtils.generate_graphs(mat, carbs_points, "Total Carbs", "carbohydrates")
-            p3 = BFUtils.generate_graphs(mat, fat_points, "Total Fat", "fat")
+            p1 = BFUtils.generate_graphs(mat, calorie_points, "Total Calories", "Calories")
+            p2 = BFUtils.generate_graphs(mat, carbs_points, "Total Carbs", "Carbohydrates")
+            p3 = BFUtils.generate_graphs(mat, fat_points, "Total Fat", "Fat")
             p4 = BFUtils.generate_graphs(mat, sugar_points, "Total Sugar", "Sugar")
             p5 = BFUtils.generate_graphs(mat, choles_points, "Total Cholestrol", "Cholestrol")
+            # in_file = url_for('templates', filename='final-report.html')
+            # html_folder = "app\\templates\\"
+            # in_file = "final-report.html"
+            # in_filepath = os.path.join(html_folder, in_file)
+            # out_file = "final-report.pdf"
+            # pdfkit.from_file(in_filepath, out_file)
+            # render_template('final-report.html', tot_calories=tot_calories, calorie_points=calorie_points)
             
-            BFUtils.generate_pdf("analysis.pdf")
+            BFUtils.generate_pdf("app\\analysis.pdf", dtr, user_data._email)
+            file_path = 'analysis.pdf'
+            # Return the file as an attachment
+            return send_file(file_path, as_attachment=True)
+            
             
 
             
-    return render_template('generate-pdf.html', logged_in=logged_in)
+    return render_template('generate-pdf.html', cal=tot_calories)
 
     
 

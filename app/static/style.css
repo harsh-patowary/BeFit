@@ -39,3 +39,22 @@ a[tabindex]:focus {
     top: 200px;
     padding: 20px;
 }
+
+.manjari-thin {
+    font-family: "Manjari", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  .manjari-regular {
+    font-family: "Manjari", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .manjari-bold {
+    font-family: "Manjari", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
